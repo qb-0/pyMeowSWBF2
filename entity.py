@@ -9,7 +9,6 @@ class Entity:
         self.health = 0
         self.max_health = 0
         self.height = 0.0
-        self.distance = 0.0
         self.pos3d = None
         self.pos2d = None
         self.head_pos3d = None
@@ -51,84 +50,107 @@ class Entity:
     def draw_box(self, color, visible_color, alpha):
         self.box_color = visible_color if self.visible else color
         pm.draw_rectangle(
-            self.head_pos2d["x"] - self.center,
-            self.head_pos2d["y"] - self.center / 2,
-            self.width,
-            self.head + self.center / 2,
-            pm.fade_color(self.box_color, alpha),
+            posX=self.head_pos2d["x"] - self.center,
+            posY=self.head_pos2d["y"] - self.center / 2,
+            width=self.width,
+            height=self.head + self.center / 2,
+            color=pm.fade_color(self.box_color, alpha),
         )
         pm.draw_rectangle_lines(
-            self.head_pos2d["x"] - self.center,
-            self.head_pos2d["y"] - self.center / 2,
-            self.width,
-            self.head + self.center / 2,
-            self.box_color,
-            1.2,
+            posX=self.head_pos2d["x"] - self.center,
+            posY=self.head_pos2d["y"] - self.center / 2,
+            width=self.width,
+            height=self.head + self.center / 2,
+            color=self.box_color,
+            lineThick=1.2,
         )
 
     def draw_snapline(self, color, visible_color, alpha, thick, start_pos):
         c = visible_color if self.visible else color
         pm.draw_line(
-            start_pos[0],
-            start_pos[1],
-            self.head_pos2d["x"] - self.center,
-            self.head_pos2d["y"] - self.center / 2,
-            pm.fade_color(c, alpha),
-            thick,
+            startPosX=start_pos[0],
+            startPosY=start_pos[1],
+            endPosX=self.head_pos2d["x"] - self.center,
+            endPosY=self.head_pos2d["y"] - self.center / 2,
+            color=pm.fade_color(c, alpha),
+            thick=thick,
         )
 
     def draw_health(self):
         end_pos = pm.vec2(self.head_pos2d["x"] + self.center, self.head_pos2d["y"] - self.width)
         pm.draw_line(
-            self.head_pos2d["x"] + self.width - self.center,
-            self.head_pos2d["y"] - self.center / 2,
-            end_pos["x"],
-            end_pos["y"],
-            self.box_color,
-            1.2,
+            startPosX=self.head_pos2d["x"] + self.width - self.center,
+            startPosY=self.head_pos2d["y"] - self.center / 2,
+            endPosX=end_pos["x"],
+            endPosY=end_pos["y"],
+            color=self.box_color,
+            thick=1.2,
         )
         pm.draw_circle_sector(
-            end_pos["x"],
-            end_pos["y"],
-            self.center / 3 + 2,
-            0,
-            360,
-            0,
-            ColorClass.black,
+            centerX=end_pos["x"],
+            centerY=end_pos["y"],
+            radius=self.center / 3 + 2,
+            startAngle=0,
+            endAngle=360,
+            segments=0,
+            color=ColorClass.black,
         )
         pm.draw_circle_sector(
-            end_pos["x"],
-            end_pos["y"],
-            self.center / 3,
-            0,
-            360,
-            0,
-            ColorClass.red,
+            centerX=end_pos["x"],
+            centerY=end_pos["y"],
+            radius=self.center / 3,
+            startAngle=0,
+            endAngle=360,
+            segments=0,
+            color=ColorClass.red,
         )
         pm.draw_circle_sector(
-            end_pos["x"],
-            end_pos["y"],
-            self.center / 3,
-            0,
-            360 / self.max_health * self.health,
-            0,
-            ColorClass.green,
+            centerX=end_pos["x"],
+            centerY=end_pos["y"],
+            radius=self.center / 3,
+            startAngle=0,
+            endAngle=360 / self.max_health * self.health,
+            segments=0,
+            color=ColorClass.green,
         )
 
     def draw_info(self, distance, color):
         end_pos = pm.vec2(
-            self.head_pos2d["x"] + self.center + self.width - self.center / 2, self.head_pos2d["y"] - self.center / 2
+            self.head_pos2d["x"] + self.center + self.width - self.center / 2,
+            self.head_pos2d["y"] - self.center / 2
         )
         pm.draw_line(
-            self.head_pos2d["x"] + self.width - self.center,
-            self.head_pos2d["y"] - self.center / 2,
-            end_pos["x"],
-            end_pos["y"],
-            self.box_color,
-            1.2,
+            startPosX=self.head_pos2d["x"] + self.width - self.center,
+            startPosY=self.head_pos2d["y"] - self.center / 2,
+            endPosX=end_pos["x"],
+            endPosY=end_pos["y"],
+            color=self.box_color,
+            thick=1.2,
         )
-        pm.draw_font(0, self.name, end_pos["x"], end_pos["y"], 13, 0, color)
-        pm.draw_font(0, f"D: {distance}", end_pos["x"], end_pos["y"] + 13, 13, 0, color)
         pm.draw_font(
-            0, f"H: {int(self.health)} / {int(self.max_health)}", end_pos["x"], end_pos["y"] + 26, 13, 0, color
+            fontId=0,
+            text=self.name,
+            posX=end_pos["x"],
+            posY=end_pos["y"],
+            fontSize=13,
+            spacing=0,
+            tint=color
+        )
+        pm.draw_font(
+            fontId=0,
+            text=f"D: {distance}",
+            posX=end_pos["x"],
+            posY=end_pos["y"] + 13,
+            fontSize=13,
+            spacing=0,
+            tint=color
+        )
+        pm.draw_font(
+            fontId=0,
+            text=f"H: {int(self.health)} / {int(self.max_health)}",
+            posX=end_pos["x"],
+            posY=end_pos["y"] + 26,
+            fontSize=13,
+            spacing=0,
+            tint=color
         )
