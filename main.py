@@ -3,8 +3,10 @@ import sys
 import pyMeow as pm
 
 from configparser import ConfigParser
+
 from entity import Entity
 from misc import Offsets, ColorClass
+from menu import Menu
 
 
 class PyMeowSWBF2:
@@ -19,6 +21,7 @@ class PyMeowSWBF2:
 
         self.colors = ColorClass()
         self.config = ConfigParser()
+        self.menu = Menu()
         self.local_player = None
 
         try:
@@ -58,8 +61,15 @@ class PyMeowSWBF2:
     def main_loop(self):
         while pm.overlay_loop():
             pm.begin_drawing()
+
+            # FPS
             if self.config.getboolean("Main", "DrawFPS"):
                 pm.draw_fps(10, pm.get_screen_height() - 30)
+
+            # Menu
+            self.menu.check_key()
+            if self.menu.draw:
+                self.config = self.menu.draw_menu(self.config)
 
             # Init Local
             local_addr = pm.r_int64(self.proc, self.player_manager + Offsets.LocalPlayer)
@@ -105,7 +115,7 @@ class PyMeowSWBF2:
                     ent.draw_health()
 
                 # Info
-                if self.config.get("Main", "DrawInfo"):
+                if self.config.getboolean("Main", "DrawInfo"):
                     ent.draw_info(int(pm.vec3_distance(self.local_player.pos3d, ent.pos3d)), self.colors.info)
 
             pm.end_drawing()

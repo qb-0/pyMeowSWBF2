@@ -117,11 +117,11 @@ class Entity:
     def draw_info(self, distance, color):
         end_pos = pm.vec2(
             self.head_pos2d["x"] + self.center + self.width - self.center / 2,
-            self.head_pos2d["y"] - self.center / 2
+            self.head_pos2d["y"] - self.center / 2 + 1
         )
         pm.draw_line(
             startPosX=self.head_pos2d["x"] + self.width - self.center,
-            startPosY=self.head_pos2d["y"] - self.center / 2,
+            startPosY=end_pos["y"],
             endPosX=end_pos["x"],
             endPosY=end_pos["y"],
             color=self.box_color,
