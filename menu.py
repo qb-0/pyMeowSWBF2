@@ -63,7 +63,7 @@ class Menu:
             pm.gui_dropdown_box(
                 posX=120, posY=90,
                 width=80, height=20,
-                text="Mid;Top;Bottom",
+                text="#64#Mid;#121#Top;#120#Bottom",
                 id=1
             )
         ]
