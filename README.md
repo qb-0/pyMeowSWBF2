@@ -7,7 +7,8 @@ A configurable cross platform Starwars Battlefront 2 ESP created with [pyMeow](h
 - FPS control
 - Box ESP
 - Snaplines
-- Entity ESP
+- Entity information
+- Health "Pies"
 - No Recoil
 - No Spread
 - Ingame Menu
