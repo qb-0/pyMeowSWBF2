@@ -64,7 +64,13 @@ class PyMeowSWBF2:
 
             # FPS
             if self.config.getboolean("Main", "DrawFPS"):
-                pm.draw_fps(10, pm.get_screen_height() - 30)
+                pm.gui_progress_bar(
+                    posX=26, posY=pm.get_screen_height() - 30,
+                    width=200, height=20,
+                    textLeft="FPS ", textRight=f" {pm.get_fps()}",
+                    value=pm.get_fps(), minValue=0,
+                    maxValue=600 if self.config.getfloat("Main", "FPS") == 0 else self.config.getfloat("Main", "FPS")
+                )
 
             # Menu
             self.menu.check_key()

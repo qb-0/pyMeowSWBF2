@@ -18,7 +18,7 @@ class Menu:
             posX=0,
             posY=0,
             width=400,
-            height=250,
+            height=210,
             title="pyMeow SWBF2"
         )
         if window_box:
@@ -88,6 +88,10 @@ class Menu:
             text="Draw Information",
             checked=config.getboolean("Main", "DrawInfo")
         ))
+
+        if pm.gui_button(posX=10, posY=180, width=380, height=20, text="Safe Config"):
+            with open("config.ini", "w") as f:
+                config.write(f)
 
         return config
 
