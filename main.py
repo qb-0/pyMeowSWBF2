@@ -61,7 +61,15 @@ class PyMeowSWBF2:
     def main_loop(self):
         while pm.overlay_loop():
             pm.begin_drawing()
-
+            pm.draw_font(
+                fontId=0,
+                text="pyMeow SWBF2\nPress 'Insert' to open menu",
+                posX=10,
+                posY=10,
+                fontSize=13,
+                spacing=0,
+                tint=ColorClass.white
+            )
             # FPS
             if self.config.getboolean("Main", "DrawFPS"):
                 pm.gui_progress_bar(
@@ -69,7 +77,7 @@ class PyMeowSWBF2:
                     width=200, height=20,
                     textLeft="FPS ", textRight=f" {pm.get_fps()}",
                     value=pm.get_fps(), minValue=0,
-                    maxValue=600 if self.config.getfloat("Main", "FPS") == 0 else self.config.getfloat("Main", "FPS")
+                    maxValue=1000 if self.config.getfloat("Main", "FPS") == 0 else self.config.getfloat("Main", "FPS")
                 )
 
             # Menu
@@ -122,7 +130,11 @@ class PyMeowSWBF2:
 
                 # Info
                 if self.config.getboolean("Main", "DrawInfo"):
-                    ent.draw_info(int(pm.vec3_distance(self.local_player.pos3d, ent.pos3d)), self.colors.info)
+                    try:
+                        dist = int(pm.vec3_distance(self.local_player.pos3d, ent.pos3d))
+                    except:
+                        dist = 0
+                    ent.draw_info(dist, self.colors.info)
 
             pm.end_drawing()
 

@@ -90,6 +90,7 @@ class Menu:
         ))
 
         if pm.gui_button(posX=10, posY=180, width=380, height=20, text="Safe Config"):
+            pm.set_fps(int(config["Main"]["FPS"]))
             with open("config.ini", "w") as f:
                 config.write(f)
 
