@@ -39,7 +39,7 @@ class PyMeowSWBF2:
                 target="STAR WARS Battlefront II",
                 title="SWBF2 pyMeow",
             )
-            pm.load_font("assets/soloist1.ttf", 0)
+            pm.load_font("../assets/soloist1.ttf", 0)
         except Exception as e:
             sys.exit(e)
 
@@ -70,6 +70,7 @@ class PyMeowSWBF2:
                 spacing=0,
                 tint=ColorClass.white
             )
+
             # FPS
             if self.config.getboolean("Main", "DrawFPS"):
                 pm.gui_progress_bar(

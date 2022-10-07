@@ -14,7 +14,7 @@ A configurable cross platform Starwars Battlefront 2 ESP created with [pyMeow](h
 
 ## Installation
 - Install Python (64bit)
-- Install pyMeow [pyMeow](https://github.com/qb-0/pyMeow)
+- Install [pyMeow](https://github.com/qb-0/pyMeow)
 - Clone this repository and run the main script:
   - Windows: `python main.py`
   - Linux: `sudo python3 main.py`
