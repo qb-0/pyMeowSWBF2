@@ -28,7 +28,7 @@ class PyMeowSWBF2:
             with open("config.ini") as f:
                 self.config.read_file(f)
             self.colors.parse_colors(self.config)
-            self.proc = pm.open_process(processName=process_name)
+            self.proc = pm.open_process(process_name)
             self.render_view = pm.r_int(self.proc, pm.r_int(self.proc, Offsets.GameRenderer) + Offsets.RenderView)
             self.game_context = pm.r_int(self.proc, Offsets.ClientGameContext)
             self.player_manager = pm.r_int(self.proc, self.game_context + Offsets.PlayerManager)
