@@ -76,7 +76,7 @@ class PyMeowSWBF2:
 
     def main_loop(self):
         while pm.overlay_loop():
-            if os.name == "nt":
+            if os.name == "nt" and not self.menu.draw:
                 backgroundWindow = getForegroundWindowTitle()
                 if backgroundWindow != None:
                     if backgroundWindow != 'STAR WARS Battlefront II':
