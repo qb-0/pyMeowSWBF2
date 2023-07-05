@@ -7,7 +7,7 @@ from time import sleep
 class Menu:
     def __init__(self):
         self.draw = False
-
+        self.prevState = False
         # Insert
         self.menu_key = 0x2D
         if os.name == "posix":
@@ -97,7 +97,8 @@ class Menu:
         return config
 
     def check_key(self):
-        if pm.key_pressed(self.menu_key):
+        state = pm.key_pressed(self.menu_key)
+        if state and not self.prevState:
             self.draw = not self.draw
             pm.toggle_mouse()
-            sleep(0.15)
+        self.prevState = state
