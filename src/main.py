@@ -3,11 +3,27 @@ import sys
 import pyMeow as pm
 
 from configparser import ConfigParser
+from time import sleep
+
+if os.name == 'nt':
+    from typing import Optional
+    from ctypes import windll, create_unicode_buffer
 
 from entity import Entity
 from misc import Offsets, ColorClass
 from menu import Menu
 
+# https://stackoverflow.com/a/58355052
+def getForegroundWindowTitle() -> Optional[str]:
+    hWnd = windll.user32.GetForegroundWindow()
+    length = windll.user32.GetWindowTextLengthW(hWnd)
+    buf = create_unicode_buffer(length + 1)
+    windll.user32.GetWindowTextW(hWnd, buf, length + 1)
+
+    if buf.value:
+        return buf.value
+    else:
+        return None
 
 class PyMeowSWBF2:
     def __init__(self):
@@ -60,6 +76,14 @@ class PyMeowSWBF2:
 
     def main_loop(self):
         while pm.overlay_loop():
+            if os.name == "nt" and not self.menu.draw:
+                backgroundWindow = getForegroundWindowTitle()
+                if backgroundWindow != None:
+                    if backgroundWindow != 'STAR WARS Battlefront II':
+                        sleep(0.15)
+                        pm.end_drawing()
+                        continue
+
             pm.begin_drawing()
             pm.draw_font(
                 fontId=0,
